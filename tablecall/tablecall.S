@@ -134,13 +134,6 @@ ROUTINE_ENTRY ke_dispatch_system_service
 
     jmp    *(%r10,%rax,8)
 
-
-    //
-    // Return from dispatcher.
-    //
-
-    retq
-
 1:
     //
     // Tried to invoke invalid system service. Report that to caller.
@@ -152,7 +145,6 @@ ROUTINE_ENTRY ke_dispatch_system_service
     //
     // Return from dispatcher.
     //
-
     retq
 
 ROUTINE_END ke_dispatch_system_service
