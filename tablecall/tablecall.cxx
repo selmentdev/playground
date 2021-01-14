@@ -1,5 +1,7 @@
 #include <cstdint>
 
+extern "C" {
+    
 extern int svc_function_1(uint64_t* result, uint64_t a, uint64_t b)
 {
     if (result == nullptr)
@@ -90,16 +92,4 @@ extern int svc_check_all_abi_registers(uintptr_t* result, uintptr_t a, uintptr_t
 
     return 0;
 }
-
-
-extern void* kep_system_service_table[7];
-
-void* kep_system_service_table[7] = {
-    (void*)&svc_function_1,
-    (void*)&svc_function_2,
-    (void*)&svc_function_3,
-    (void*)&svc_function_4,
-    (void*)&svc_function_5,
-    (void*)&svc_function_6,
-    (void*)svc_check_all_abi_registers,
-};
+}

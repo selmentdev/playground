@@ -90,7 +90,7 @@ DEFINE_CALL         call_function_5         4
 DEFINE_CALL         call_function_6         5
 DEFINE_CALL         call_check_all_abi_registers    6
 
-DEFINE_CALL         call_function_0x2137    0x2137
+DEFINE_CALL         call_function_0x2137    8
 
 #define SYSTEM_CALLS_NUMBER 7
 
@@ -167,3 +167,20 @@ ROUTINE_ENTRY svc_not_supported_system_service
     retq
 
 ROUTINE_END svc_not_supported_system_service
+
+
+.macro SYSCALL_TABLE_ENTRY name
+    .extern \name
+    .quad \name
+.endm
+
+PUBLIC kep_system_service_table
+DATA_ENTRY kep_system_service_table
+    SYSCALL_TABLE_ENTRY svc_function_1
+    SYSCALL_TABLE_ENTRY svc_function_2
+    SYSCALL_TABLE_ENTRY svc_function_3
+    SYSCALL_TABLE_ENTRY svc_function_4
+    SYSCALL_TABLE_ENTRY svc_function_5
+    SYSCALL_TABLE_ENTRY svc_function_6
+    SYSCALL_TABLE_ENTRY svc_check_all_abi_registers
+DATA_END kep_system_service_table
