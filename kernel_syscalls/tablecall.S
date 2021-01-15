@@ -64,7 +64,7 @@
         // call to user mode function in order to emulate that behavior in host environment.
         //
 
-        jmp        ke_dispatch_system_service
+        jmp        KeDispatchSystemService
 
 
         //
@@ -82,8 +82,8 @@
 // Define handled system service stubs.
 //
 
-DEFINE_CALL         call_syscall_foobar     0
-DEFINE_CALL         call_syscall_unknown    1
+DEFINE_CALL Invoke__Foobar  0
+DEFINE_CALL Invoke__Unknown 1
 
 #define SYSTEM_CALLS_NUMBER 1
 
@@ -94,17 +94,16 @@ DEFINE_CALL         call_syscall_unknown    1
     .quad \name
 .endm
 
-PUBLIC kep_system_service_table
-DATA_ENTRY kep_system_service_table
-    SYSCALL_TABLE_ENTRY syscall_foobar
-DATA_END kep_system_service_table
+PUBLIC KiSystemServiceTable
+DATA_ENTRY KiSystemServiceTable
+    SYSCALL_TABLE_ENTRY Syscall__Foobar
+DATA_END KiSystemServiceTable
 
-PUBLIC ke_dispatch_system_service
-ROUTINE_ENTRY ke_dispatch_system_service
+PUBLIC KeDispatchSystemService
+ROUTINE_ENTRY KeDispatchSystemService
 
     //
     // Check whether this service call is supported.
-    // Note: this may be changed as mask+test to regular stub which will return fail status.
     //
 
     cmpq    $SYSTEM_CALLS_NUMBER, %rax
@@ -114,7 +113,7 @@ ROUTINE_ENTRY ke_dispatch_system_service
     // This was invalid service call index - to failure area.
     //
 
-    jae     1f
+    jae     L(InvalidService)
 
 
     //
@@ -128,7 +127,7 @@ ROUTINE_ENTRY ke_dispatch_system_service
     // This was valid service call index - load address of dispatch table.
     //
 
-    leaq    kep_system_service_table(%rip), %r10
+    leaq    KiSystemServiceTable(%rip), %r10
 
 
     //
@@ -137,7 +136,7 @@ ROUTINE_ENTRY ke_dispatch_system_service
 
     jmp    *(%r10,%rax,8)
 
-1:
+L(InvalidService):
     //
     // Tried to invoke invalid system service. Report that to caller.
     //
@@ -150,16 +149,14 @@ ROUTINE_ENTRY ke_dispatch_system_service
     //
     retq
 
-ROUTINE_END ke_dispatch_system_service
+ROUTINE_END KeDispatchSystemService
 
 
 //
 // This stub initializes every entry in table which isn't supported.
 //
-// os_status_t svc_not_supported_system_service(void);
-//
 
-ROUTINE_ENTRY svc_not_supported_system_service
+ROUTINE_ENTRY KiNotSupportedSystemService
 
     //
     // Return status.
@@ -169,4 +166,4 @@ ROUTINE_ENTRY svc_not_supported_system_service
 
     retq
 
-ROUTINE_END svc_not_supported_system_service
+ROUTINE_END KiNotSupportedSystemService

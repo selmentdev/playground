@@ -2,31 +2,44 @@
 #include <algorithm>
 #include <cstring>
 #include <cctype>
+#include <numeric>
 
 extern "C"
 {
-    namespace corydale::syscalls
+    namespace Corydale::Syscalls
     {
-        extern os_result syscall_foobar(syscall_foobar_params* params) noexcept
+        extern StatusCode Syscall__Foobar(Syscall__FoobarParams& params) noexcept
         {
-            params->out_chars_size = params->in_text.size();
-
-            if (params->in_text.size() > params->out_chars.size())
+            if (params.Chars.Array == nullptr || params.Text.Array == nullptr || params.Numbers.Array == nullptr)
             {
                 return -1;
             }
-            else
+
+            if (params.Text.Count >= params.Chars.Count)
             {
-                std::transform(params->in_text.begin(), params->in_text.end(), params->out_chars.begin(), toupper);
+                return -1;
             }
 
-            int sum{};
-            for (int i : params->in_numbers)
-            {
-                sum += i;
-            }
+            auto const text  = ToStringView(params.Text);
+            auto const chars = ToArrayView(params.Chars);
 
-            params->out_sum = sum;
+            ASSERT(params.Chars.Count >= params.Text.Count);
+
+            std::transform(
+                text.begin(),
+                text.end(),
+                chars.begin(),
+                toupper);
+
+            params.Chars.Count                     = params.Text.Count;
+            params.Chars.Array[params.Chars.Count] = '\0';
+
+            auto const numbers = ToArrayView(params.Numbers);
+
+            params.Sum = std::accumulate(
+                numbers.begin(),
+                numbers.end(),
+                int{ 0 });
 
             return 0;
         }

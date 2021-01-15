@@ -2,6 +2,20 @@
 #define SYSCALLS_H
 
 #include <stddef.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#define ASSERT(x) \
+    do \
+    { \
+        if (!(x)) \
+        { \
+            printf("assertion failed:\n%s:%u\n%s\n", __FILE__, __LINE__, #x); \
+            abort(); \
+        } \
+    } while (false)
 
 #if defined(__cplusplus)
 extern "C" {
@@ -16,6 +30,10 @@ int posix_foobar(
     size_t* chars_count);
 
 int posix_unknown();
+
+void test_cxx_syscalls();
+
+#define STATUS_INVALID_SYSTEM_SERVICE 0xC000004C
 
 #if defined(__cplusplus)
 }

@@ -9,7 +9,7 @@ AS := clang
 
 LD := clang
 
-SOURCES := main.c syscalls.cxx api.cxx tablecall.S
+SOURCES := main.c syscalls.cxx api.cxx tablecall.S main_cxx.cxx
 
 OBJECTS := $(SOURCES:%=obj/%.o)
 
