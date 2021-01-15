@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <string_view>
 #include <span>
+#include "base.h"
 
 namespace corydale
 {
@@ -27,12 +28,12 @@ namespace corydale::syscalls
 
     extern "C"
     {
-        extern os_result syscall_foobar(syscall_foobar_params* params) noexcept;
+        extern funcattr_noinline os_result syscall_foobar(syscall_foobar_params* params) noexcept;
     }
 
     extern "C"
     {
-        extern os_result call_syscall_foobar(syscall_foobar_params* params) noexcept;
-        extern os_result call_syscall_unknown() noexcept;
+        extern funcattr_noinline os_result call_syscall_foobar(syscall_foobar_params* params) noexcept;
+        extern funcattr_noinline os_result call_syscall_unknown() noexcept;
     }
 }
