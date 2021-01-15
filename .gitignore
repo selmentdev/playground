@@ -352,3 +352,4 @@ MigrationBackup/
 # linux build artifacts
 *.elf
 *.o
+*.asm
