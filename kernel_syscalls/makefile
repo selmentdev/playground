@@ -1,7 +1,7 @@
-CXXFLAGS := -fno-rtti -fno-exceptions -ftree-vectorize -fbuiltin -O3 -std=c++20
+CXXFLAGS := -fno-rtti -fno-exceptions -ftree-vectorize -fbuiltin -O3 -std=c++20 -mno-mmx -mno-sse -mno-sse2
 CXX := clang++
 
-CFLAGS := -ftree-vectorize -fbuiltin -O3
+CFLAGS := -ftree-vectorize -fbuiltin -O3 -mno-mmx -mno-sse -mno-sse2
 CC := clang
 
 ASFLAGS := -pipe -integrated-as
