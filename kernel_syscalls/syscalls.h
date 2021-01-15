@@ -31,6 +31,8 @@ int posix_foobar(
 
 int posix_unknown();
 
+int posix_retired();
+
 int posix_barbaz(int const* x, int const* y, int* results, size_t count);
 
 void test_cxx_syscalls();

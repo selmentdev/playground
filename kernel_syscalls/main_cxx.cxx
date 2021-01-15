@@ -39,6 +39,11 @@ extern "C"
             ASSERT(result == STATUS_INVALID_SYSTEM_SERVICE);
         }
         {
+            puts("Corydale::Retired");
+            int const result = Corydale::Retired();
+            ASSERT(result == STATUS_INVALID_SYSTEM_SERVICE);
+        }
+        {
             int x[]{
                 1,
                 2,

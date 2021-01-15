@@ -10,6 +10,11 @@ namespace Corydale
         return Syscalls::Invoke__Unknown();
     }
 
+    extern StatusCode Retired() noexcept
+    {
+        return Syscalls::Invoke__Retired();
+    }
+
     extern StatusCode Foobar(
         StringView text,
         ArrayView<int> numbers,
@@ -80,6 +85,11 @@ extern "C"
         }
 
         return result;
+    }
+
+    int posix_retired()
+    {
+        return Corydale::Syscalls::Invoke__Retired();
     }
 
     int posix_unknown()

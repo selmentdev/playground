@@ -82,6 +82,7 @@
 // Define handled system service stubs.
 //
 
+DEFINE_CALL Invoke__Retired 0
 DEFINE_CALL Invoke__Foobar  2
 DEFINE_CALL Invoke__Barbaz  4
 DEFINE_CALL Invoke__Unknown 12

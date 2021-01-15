@@ -95,6 +95,7 @@ namespace Corydale::Syscalls
     {
         extern funcattr_noinline StatusCode Invoke__Foobar(Syscall__FoobarParams& params) noexcept;
         extern funcattr_noinline StatusCode Invoke__Unknown() noexcept;
+        extern funcattr_noinline StatusCode Invoke__Retired() noexcept;
         extern funcattr_noinline StatusCode Invoke__Barbaz(ImmutableArray<int> x, ImmutableArray<int> y, MutableArray<int> results) noexcept;
     }
 }
@@ -103,6 +104,9 @@ namespace Corydale
 {
     // Actual C++ functions providing APIs
     extern funcattr_noinline StatusCode Unknown() noexcept;
+
+    extern funcattr_noinline StatusCode Retired() noexcept;
+
     extern funcattr_noinline StatusCode Foobar(
         StringView text,
         ArrayView<int> numbers,

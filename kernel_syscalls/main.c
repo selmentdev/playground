@@ -38,6 +38,11 @@ int main()
         ASSERT(result == STATUS_INVALID_SYSTEM_SERVICE);
     }
     {
+        puts("posix_retired");
+        int const result = posix_retired();
+        ASSERT(result == STATUS_INVALID_SYSTEM_SERVICE);
+    }
+    {
         int const count = 4;
         int x[count]    = {
             1,
