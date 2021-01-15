@@ -43,5 +43,26 @@ extern "C"
 
             return 0;
         }
+
+        extern StatusCode Syscall__Barbaz(ImmutableArray<int> x, ImmutableArray<int> y, MutableArray<int> results) noexcept
+        {
+            if (x.Array == nullptr || y.Array == nullptr || results.Array == nullptr)
+            {
+                return -1;
+            }
+
+            if (x.Count == 0 || y.Count == 0 || results.Count == 0)
+            {
+                return -2;
+            }
+
+            for (size_t i = 0; i < results.Count; ++i)
+            {
+                results.Array[i] = x.Array[i] + y.Array[i];
+            }
+
+            return 0;
+        }
+
     }
 }

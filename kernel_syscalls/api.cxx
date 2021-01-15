@@ -33,6 +33,18 @@ namespace Corydale
 
         return result;
     }
+
+
+    extern funcattr_noinline StatusCode Barbaz(
+        ArrayView<int const> x,
+        ArrayView<int const> y,
+        ArrayView<int> results) noexcept
+    {
+        return Syscalls::Invoke__Barbaz(
+            { x.data(), x.size() },
+            { y.data(), y.size() },
+            { results.data(), results.size() });
+    }
 }
 
 
@@ -75,5 +87,14 @@ extern "C"
         using namespace Corydale::Syscalls;
 
         return Invoke__Unknown();
+    }
+
+    int posix_barbaz(int const* x, int const* y, int* results, size_t count)
+    {
+        using namespace Corydale::Syscalls;
+        return Invoke__Barbaz(
+            { x, count },
+            { y, count },
+            { results, count });
     }
 }

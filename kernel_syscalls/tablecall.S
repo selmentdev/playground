@@ -82,22 +82,11 @@
 // Define handled system service stubs.
 //
 
-DEFINE_CALL Invoke__Foobar  0
-DEFINE_CALL Invoke__Unknown 1
+DEFINE_CALL Invoke__Foobar  2
+DEFINE_CALL Invoke__Barbaz  4
+DEFINE_CALL Invoke__Unknown 12
 
-#define SYSTEM_CALLS_NUMBER 1
-
-
-
-.macro SYSCALL_TABLE_ENTRY name
-    .extern \name
-    .quad \name
-.endm
-
-PUBLIC KiSystemServiceTable
-DATA_ENTRY KiSystemServiceTable
-    SYSCALL_TABLE_ENTRY Syscall__Foobar
-DATA_END KiSystemServiceTable
+#define SYSTEM_CALLS_NUMBER 7
 
 PUBLIC KeDispatchSystemService
 ROUTINE_ENTRY KeDispatchSystemService
@@ -167,3 +156,22 @@ ROUTINE_ENTRY KiNotSupportedSystemService
     retq
 
 ROUTINE_END KiNotSupportedSystemService
+
+.macro SYSCALL_TABLE_ENTRY name
+    .extern \name
+    .quad \name
+.endm
+
+.macro SYSCALL_TABLE_STUB
+    .quad KiNotSupportedSystemService
+.endm
+
+PUBLIC KiSystemServiceTable
+DATA_ENTRY KiSystemServiceTable
+    SYSCALL_TABLE_STUB
+    SYSCALL_TABLE_STUB
+    SYSCALL_TABLE_ENTRY Syscall__Foobar
+    SYSCALL_TABLE_STUB
+    SYSCALL_TABLE_ENTRY Syscall__Barbaz
+    SYSCALL_TABLE_STUB
+DATA_END KiSystemServiceTable

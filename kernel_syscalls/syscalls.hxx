@@ -87,6 +87,7 @@ namespace Corydale::Syscalls
     extern "C"
     {
         extern funcattr_noinline StatusCode Syscall__Foobar(Syscall__FoobarParams& params) noexcept;
+        extern funcattr_noinline StatusCode Syscall__Barbaz(ImmutableArray<int> x, ImmutableArray<int> y, MutableArray<int> results) noexcept;
     }
 
     // Stubs for invoking syscalls from FFI and C++ wrappers
@@ -94,6 +95,7 @@ namespace Corydale::Syscalls
     {
         extern funcattr_noinline StatusCode Invoke__Foobar(Syscall__FoobarParams& params) noexcept;
         extern funcattr_noinline StatusCode Invoke__Unknown() noexcept;
+        extern funcattr_noinline StatusCode Invoke__Barbaz(ImmutableArray<int> x, ImmutableArray<int> y, MutableArray<int> results) noexcept;
     }
 }
 
@@ -107,4 +109,9 @@ namespace Corydale
         int& sum,
         ArrayView<char> chars,
         size_t& chars_count) noexcept;
+
+    extern funcattr_noinline StatusCode Barbaz(
+        ArrayView<int const> x,
+        ArrayView<int const> y,
+        ArrayView<int> results) noexcept;
 }
