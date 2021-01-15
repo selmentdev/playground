@@ -1,29 +1,34 @@
 #include "header.h"
 
-volatile unsigned int * const UART0DR = (unsigned int *) 0x09000000;
- 
-void print_uart0(const char *s) {
-    while(*s != '\0') { 		/* Loop until end of string */
-         *UART0DR = (unsigned int)(*s); /* Transmit char */
-          s++;			        /* Next char */
+volatile unsigned int* const UART0DR = (unsigned int*)0x09000000;
+
+void print_uart0(const char* s)
+{
+    while (*s != '\0')
+    {                                  /* Loop until end of string */
+        *UART0DR = (unsigned int)(*s); /* Transmit char */
+        s++;                           /* Next char */
     }
 }
 
-void c_entry() {
-     print_uart0("Hello aarch64");
+void c_entry()
+{
+    print_uart0("Hello aarch64");
 }
 
-#define ENTRY(name, base)         do { \
-    print_uart0(#name ": "); \
-    rtl_string_from_uint64(__builtin_bswap64(((arch_devicetree_boot_header_t*)fdt)->name) >> 32, data, sizeof(data), base); \
-    print_uart0(data); \
-    print_uart0("\r\n"); \
-} \
-while (0)
- 
-void c_entry2(uint32_t* fdt, uint64_t pc, uint64_t sp) {
+#define ENTRY(name, base) \
+    do \
+    { \
+        print_uart0(#name ": "); \
+        rtl_string_from_uint64(__builtin_bswap64(((arch_devicetree_boot_header_t*)fdt)->name) >> 32, data, sizeof(data), base); \
+        print_uart0(data); \
+        print_uart0("\r\n"); \
+    } while (0)
+
+void c_entry2(uint32_t* fdt, uint64_t pc, uint64_t sp)
+{
     char data[64];
-    
+
     rtl_string_from_uint64(pc, data, sizeof(data), 0x10);
     print_uart0("program-counter: ");
     print_uart0(data);

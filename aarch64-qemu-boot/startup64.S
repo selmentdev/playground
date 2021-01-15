@@ -39,4 +39,3 @@ arch_kernel_main2:
     wfe                                 // wait for event
     wfi                                 // wait for interrupt
     b       1b                          // loop until end of the hello world
-

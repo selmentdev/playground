@@ -8,6 +8,7 @@ typedef unsigned long long uint64_t;
 typedef long long int64_t;
 typedef unsigned long long size_t;
 typedef int boolean_t;
+
 #define FALSE 0
 #define UINT64_MAX 0xFFFFFFFFFFFFFFFFULL
 #define rtl_char_is_space(x) ((x) == ' ')
@@ -44,6 +45,5 @@ rtl_string_from_uint64(
     size_t      buffer_length,
     int         base
 );
-
 
 #endif // INCLUDED_HEADER_H

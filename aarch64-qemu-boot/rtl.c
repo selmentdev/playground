@@ -3,10 +3,9 @@
 sys_result_t
 rtl_internal_string_from_uint_validate(
     const char* buffer,
-    size_t      buffer_length,
-    int         base,
-    boolean_t   is_negative
-)
+    size_t buffer_length,
+    int base,
+    boolean_t is_negative)
 {
     if (buffer == NULL)
     {
@@ -32,18 +31,17 @@ rtl_internal_string_from_uint_validate(
 }
 sys_result_t
 rtl_internal_string_from_uint64(
-    uint64_t    value,
-    char*       buffer,
-    size_t      buffer_length,
-    int         base,
-    boolean_t   is_negative
-)
+    uint64_t value,
+    char* buffer,
+    size_t buffer_length,
+    int base,
+    boolean_t is_negative)
 {
     sys_result_t status = rtl_internal_string_from_uint_validate(buffer, buffer_length, base, is_negative);
     if (SYS_RESULT_SUCCESS(status))
     {
         uint64_t remaining = value;
-        char* buf = buffer;
+        char* buf          = buffer;
 
         size_t length = 0;
         if (is_negative)
@@ -51,7 +49,7 @@ rtl_internal_string_from_uint64(
             (*buf++) = '-';
             ++length;
 
-            remaining = (uint64_t)-((int64_t)remaining);
+            remaining = (uint64_t) - ((int64_t)remaining);
         }
 
         char* first_digit = buffer;
@@ -83,8 +81,8 @@ rtl_internal_string_from_uint64(
 
         do
         {
-            char t = (*buffer);
-            (*buffer) = (*first_digit);
+            char t         = (*buffer);
+            (*buffer)      = (*first_digit);
             (*first_digit) = t;
             --buffer;
             ++first_digit;
@@ -96,17 +94,15 @@ rtl_internal_string_from_uint64(
 
 sys_result_t
 rtl_string_from_uint64(
-    uint64_t    value,
-    char*       buffer,
-    size_t      buffer_length,
-    int         base
-)
+    uint64_t value,
+    char* buffer,
+    size_t buffer_length,
+    int base)
 {
     return rtl_internal_string_from_uint64(
         (uint64_t)value,
         buffer,
         buffer_length,
         base,
-        FALSE
-    );
+        FALSE);
 }

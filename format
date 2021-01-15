@@ -1,0 +1,2 @@
+#!/bin/sh
+find . -iname "*.cxx" -or -iname "*.hxx" -or -iname "*.inl" -or -iname "*.c" | xargs clang-format -i
