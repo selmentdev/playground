@@ -8,7 +8,7 @@
     { \
         if (!(x)) \
         { \
-            printf("\033[31;01massertion failed: %s\n%s:%d\033[0m\n", #x, __FILE__, __LINE__); \
+            printf("\033[36;01massertion failed: %s\n%s:%d\033[0m\n", #x, __FILE__, __LINE__); \
         } \
     } while (false)
 
@@ -16,9 +16,9 @@ namespace corydale::kernel::memory
 {
     enum class memory_pool : uint32_t
     {
-        kernel,
-        user,
-        hypervisor,
+        kernel     = 0xdeadbeef,
+        user       = 0xbabecafe,
+        hypervisor = 0xbaca1337,
     };
 
     struct pool_header final

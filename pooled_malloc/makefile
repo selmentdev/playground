@@ -1,14 +1,18 @@
 CXXFLAGS := \
 	-fno-rtti \
 	-fno-exceptions \
-	-O3 \
+	-O1 -g \
 	-std=c++20 \
-	-fno-omit-frame-pointer
+	-fno-omit-frame-pointer \
+	-fsanitize=address
 
 CXX := clang++
 
 LD := clang
-LDFLAGS := -lstdc++
+
+LDFLAGS := \
+	-lstdc++ \
+	-fsanitize=address
 
 SOURCES := main.cxx
 

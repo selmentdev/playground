@@ -12,14 +12,12 @@ namespace corydale::kernel
         virtual bool wait() noexcept = 0;
     };
 
-    corydale_noinline
-    user_object::user_object() noexcept
+    corydale_noinline user_object::user_object() noexcept
     {
         printf("\033[31;01m%s\033[0m\n", __PRETTY_FUNCTION__);
     }
 
-    corydale_noinline
-        user_object::~user_object() noexcept
+    corydale_noinline user_object::~user_object() noexcept
     {
         printf("\033[32;01m%s\033[0m\n", __PRETTY_FUNCTION__);
     }
@@ -32,14 +30,12 @@ namespace corydale::kernel
         virtual bool wait() noexcept = 0;
     };
 
-    corydale_noinline
-    kernel_object::kernel_object() noexcept
+    corydale_noinline kernel_object::kernel_object() noexcept
     {
         printf("\033[31;01m%s\033[0m\n", __PRETTY_FUNCTION__);
     }
 
-    corydale_noinline
-        kernel_object::~kernel_object() noexcept
+    corydale_noinline kernel_object::~kernel_object() noexcept
     {
         printf("\033[32;01m%s\033[0m\n", __PRETTY_FUNCTION__);
     }
@@ -55,14 +51,12 @@ namespace corydale::kernel
         virtual bool wait() noexcept override;
     };
 
-    corydale_noinline
-    semaphore::semaphore() noexcept
+    corydale_noinline semaphore::semaphore() noexcept
     {
         printf("\033[31;01m%s\033[0m\n", __PRETTY_FUNCTION__);
     }
 
-    corydale_noinline
-        semaphore::~semaphore() noexcept
+    corydale_noinline semaphore::~semaphore() noexcept
     {
         printf("\033[32;01m%s\033[0m\n", __PRETTY_FUNCTION__);
     }
@@ -84,14 +78,12 @@ namespace corydale::kernel
         virtual bool wait() noexcept override;
     };
 
-    corydale_noinline
-    mutex::mutex() noexcept
+    corydale_noinline mutex::mutex() noexcept
     {
         printf("\033[31;01m%s\033[0m\n", __PRETTY_FUNCTION__);
     }
 
-    corydale_noinline
-        mutex::~mutex() noexcept
+    corydale_noinline mutex::~mutex() noexcept
     {
         printf("\033[32;01m%s\033[0m\n", __PRETTY_FUNCTION__);
     }
@@ -103,7 +95,14 @@ namespace corydale::kernel
     }
 }
 
-int main()
+void test_delete_object_by_reinterpret_cast_from_related_type()
+{
+    corydale::kernel::mutex* m     = new corydale::kernel::mutex();
+    corydale::kernel::semaphore* s = reinterpret_cast<corydale::kernel::semaphore*>(m);
+    delete s;
+}
+
+void test_regular_case()
 {
     corydale::kernel::semaphore* s0 = new corydale::kernel::semaphore();
     corydale::kernel::semaphore* s1 = new corydale::kernel::semaphore();
@@ -114,5 +113,57 @@ int main()
     m0->wait();
     delete s1;
     delete m0;
+}
+
+namespace corydale::kernel
+{
+    class unrelated_first final : public corydale::kernel::memory::pooled_object<corydale::kernel::memory::memory_pool::kernel>
+    {
+    public:
+        unrelated_first() noexcept;
+        ~unrelated_first() noexcept;
+    };
+
+    corydale_noinline unrelated_first::unrelated_first() noexcept
+    {
+        printf("\033[31;01m%s\033[0m\n", __PRETTY_FUNCTION__);
+    }
+
+    corydale_noinline unrelated_first::~unrelated_first() noexcept
+    {
+        printf("\033[33;01m%s\033[0m\n", __PRETTY_FUNCTION__);
+    }
+
+    class unrelated_second final : public corydale::kernel::memory::pooled_object<corydale::kernel::memory::memory_pool::hypervisor>
+    {
+    public:
+        unrelated_second() noexcept;
+        ~unrelated_second() noexcept;
+    };
+
+    corydale_noinline unrelated_second::unrelated_second() noexcept
+    {
+        printf("\033[31;01m%s\033[0m\n", __PRETTY_FUNCTION__);
+    }
+
+    corydale_noinline unrelated_second::~unrelated_second() noexcept
+    {
+        printf("\033[33;01m%s\033[0m\n", __PRETTY_FUNCTION__);
+    }
+}
+
+void test_non_virtual_unrelated()
+{
+    corydale::kernel::unrelated_first* f  = new corydale::kernel::unrelated_first();
+    corydale::kernel::unrelated_second* s = reinterpret_cast<corydale::kernel::unrelated_second*>(f);
+    delete s;
+}
+
+int main()
+{
+    test_non_virtual_unrelated();
+
+    test_regular_case();
+    test_delete_object_by_reinterpret_cast_from_related_type();
     return 0;
 }
