@@ -119,6 +119,9 @@ namespace corydale::kernel
 {
     class unrelated_first final : public corydale::kernel::memory::pooled_object<corydale::kernel::memory::memory_pool::kernel>
     {
+    private:
+        uint32_t array[16];
+        
     public:
         unrelated_first() noexcept;
         ~unrelated_first() noexcept;
@@ -136,6 +139,9 @@ namespace corydale::kernel
 
     class unrelated_second final : public corydale::kernel::memory::pooled_object<corydale::kernel::memory::memory_pool::hypervisor>
     {
+    private:
+        uint32_t array[4];
+
     public:
         unrelated_second() noexcept;
         ~unrelated_second() noexcept;
