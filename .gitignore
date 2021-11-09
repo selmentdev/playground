@@ -353,3 +353,4 @@ MigrationBackup/
 *.elf
 *.o
 *.asm
+*.exe
